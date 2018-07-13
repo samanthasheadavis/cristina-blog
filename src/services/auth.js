@@ -2,7 +2,7 @@ import { auth } from "./firebase";
 
 // Sign Up
 export const CreateUserWithEmailAndPassword = (email, password) => {
-  auth.createUserWithEmailAndPassword(email, password);
+  return auth.createUserWithEmailAndPassword(email, password);
 };
 
 // Sign In

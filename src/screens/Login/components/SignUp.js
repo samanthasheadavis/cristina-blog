@@ -29,17 +29,15 @@ class SignUpForm extends Component {
 
   onSubmit = event => {
     const { username, email, passwordOne } = this.state;
-
+    event.preventDefault();
     auth
-      .doCreateUserWithEmailAndPassword(email, passwordOne)
+      .CreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         this.setState(() => ({ ...INITIAL_STATE }));
       })
-      .catch(error => {
-        this.setState(byPropKey("error", error));
+      .catch(e => {
+        this.setState(byPropKey("error", e));
       });
-
-    event.preventDefault();
   };
 
   render() {
