@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { auth } from "../../../services";
-
-const SignUpPage = () => (
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm />
-  </div>
-);
 
 const INITIAL_STATE = {
   username: "",
@@ -34,6 +27,7 @@ class SignUpForm extends Component {
       .CreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         this.setState(() => ({ ...INITIAL_STATE }));
+        this.props.history.push("/dashboard");
       })
       .catch(e => {
         this.setState(byPropKey("error", e));
@@ -42,6 +36,7 @@ class SignUpForm extends Component {
 
   render() {
     const { username, email, passwordOne, passwordTwo, error } = this.state;
+    const { history } = this.props;
     const isInvalid =
       passwordOne !== passwordTwo ||
       passwordOne === "" ||
@@ -98,6 +93,6 @@ const SignUpLink = () => (
   </p>
 );
 
-export default SignUpPage;
+export default withRouter(SignUpForm);
 
 export { SignUpForm, SignUpLink };
