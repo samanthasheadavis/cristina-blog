@@ -7,7 +7,7 @@ export const CreateUserWithEmailAndPassword = (email, password) => {
 
 // Sign In
 export const SignInWithEmailAndPassword = (email, password) => {
-  auth.signInWithEmailAndPassword(email, password);
+  return auth.signInWithEmailAndPassword(email, password);
 };
 
 // Sign out
