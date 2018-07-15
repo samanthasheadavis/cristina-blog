@@ -4,24 +4,32 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Home from "./screens/Home";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
-import AdminDashboard from "./screens/SignUp/AdminDashboard";
+import AdminDashboard from "./screens/AdminDashboard";
+import Navigation from "./components/Navigtion";
+import { auth } from "./services/firebase";
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      authUser: null
+    };
+  }
+
+  componentDidMount() {
+    auth.onAuthStateChanged(authUser => {
+      authUser
+        ? this.setState(() => ({ authUser }))
+        : this.setState(() => ({ authUser: null }));
+    });
+  }
+
   render() {
     return (
       <Router>
         <div>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/sign-up">Sign Up</Link>
-            </li>
-            <li>
-              <Link to="/login">Log In</Link>
-            </li>
-          </ul>
+          <Navigation authUser={this.state.authUser} />
           <hr />
           <Route exact path="/" component={Home} />
           <Route path="/sign-up" component={SignUp} />
