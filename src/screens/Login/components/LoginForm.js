@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { auth } from "../../../services";
+
+import { SignUpLink } from "../../SignUp/components/SignUpForm";
 
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value
@@ -38,33 +40,42 @@ class LoginForm extends Component {
     const { history } = this.props;
     const isInvalid = password === "" || email === "";
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value={email}
-          onChange={event =>
-            this.setState(byPropKey("email", event.target.value))
-          }
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          value={password}
-          onChange={event =>
-            this.setState(byPropKey("password", event.target.value))
-          }
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+      <div>
+        <form onSubmit={this.onSubmit}>
+          <input
+            value={email}
+            onChange={event =>
+              this.setState(byPropKey("email", event.target.value))
+            }
+            type="text"
+            placeholder="Email Address"
+          />
+          <input
+            value={password}
+            onChange={event =>
+              this.setState(byPropKey("password", event.target.value))
+            }
+            type="password"
+            placeholder="Password"
+          />
+          <button disabled={isInvalid} type="submit">
+            Sign In
+          </button>
 
-        {error && <p>{error.message}</p>}
-      </form>
+          {error && <p>{error.message}</p>}
+        </form>
+        <SignUpLink />
+      </div>
     );
   }
 }
 
+const LoginLink = () => (
+  <p>
+    Already have an account? <Link to="/login">Log In</Link>
+  </p>
+);
+
 export default withRouter(LoginForm);
 
-export { LoginForm };
+export { LoginForm, LoginLink };

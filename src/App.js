@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { auth } from "./services/firebase";
+
 import Home from "./screens/Home";
 import SignUp from "./screens/SignUp";
 import Login from "./screens/Login";
 import AdminDashboard from "./screens/AdminDashboard";
-import Navigation from "./components/Navigtion";
-import { auth } from "./services/firebase";
+import Navigation from "./components/Navigation";
+import Editor from "./screens/Editor";
+import About from "./screens/About";
 
 class App extends Component {
   constructor(props) {
@@ -17,6 +20,7 @@ class App extends Component {
     };
   }
 
+  // Check whether user authenticated (i.e. logged in) and set session in state
   componentDidMount() {
     auth.onAuthStateChanged(authUser => {
       authUser
@@ -33,7 +37,9 @@ class App extends Component {
           <hr />
           <Route exact path="/" component={Home} />
           <Route path="/sign-up" component={SignUp} />
-          <Route path="/dashboard" component={AdminDashboard} />
+          <Route path="/dashboard" component={AdminDashboard}>
+            <Route path="/editor" component={Editor} />
+          </Route>
           <Route path="/login" component={Login} />
         </div>
       </Router>
