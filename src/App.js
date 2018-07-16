@@ -37,10 +37,10 @@ class App extends Component {
           <hr />
           <Route exact path="/" component={Home} />
           <Route path="/sign-up" component={SignUp} />
-          <Route path="/dashboard" component={AdminDashboard}>
-            <Route path="/editor" component={Editor} />
-          </Route>
+          <Route path="/dashboard" component={AdminDashboard} />
           <Route path="/login" component={Login} />
+          <Route path={"/editor"} component={Editor} />
+          <Route path={"/about"} component={About} />
         </div>
       </Router>
     );
