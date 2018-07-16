@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import "firebase/firestore";
 
 var prodConfig = {
   apiKey: "AIzaSyAcg12gfZUQLZmaOdS1tHQqvA25_kbQNBc",
@@ -30,4 +31,9 @@ if (!firebase.apps.length) {
 // init firebase auth and export
 const auth = firebase.auth();
 
-export { auth };
+// Initialize Cloud Firestore through Firebase
+var db = firebase.firestore();
+const settings = { timestampsInSnapshots: true };
+db.settings(settings);
+
+export { auth, db };
