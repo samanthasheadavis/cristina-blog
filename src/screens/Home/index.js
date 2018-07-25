@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { firebase } from "../../services";
 
-import Article from "./components/Article";
+import ArticlePreview from "./components/ArticlePreview";
 class Home extends Component {
   state = {
     articles: []
@@ -30,7 +30,7 @@ class Home extends Component {
   articlesIndex() {
     if (this.state.articles && this.state.articles.length > 0) {
       return this.state.articles.map(article => (
-        <Article key={article.id} article={article} />
+        <ArticlePreview key={article.id} article={article} />
       ));
     }
   }

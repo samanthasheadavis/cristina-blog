@@ -10,6 +10,7 @@ import AdminDashboard from "./screens/AdminDashboard";
 import Navigation from "./components/Navigation";
 import Editor from "./screens/Editor";
 import About from "./screens/About";
+import Article from "./screens/Article";
 
 class App extends Component {
   constructor(props) {
@@ -41,6 +42,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path={"/editor"} component={Editor} />
           <Route path={"/about"} component={About} />
+          <Route path={`/articles/:articleId`} component={Article} />
         </div>
       </Router>
     );
