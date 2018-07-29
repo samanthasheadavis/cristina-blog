@@ -24,6 +24,9 @@ const NavigationAuth = () => (
 const NavigationNonAuth = () => (
   <ul>
     <li>
+      <Link to={"/"}>Blog</Link>
+    </li>
+    <li>
       <Link to={"/login"}>Log In</Link>
     </li>
   </ul>

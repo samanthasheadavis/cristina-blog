@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { auth } from "./services/firebase";
+import { firebase } from "./services";
 
 import Home from "./screens/Home";
 import SignUp from "./screens/SignUp";
@@ -23,7 +23,7 @@ class App extends Component {
 
   // Check whether user authenticated (i.e. logged in) and set session in state
   componentDidMount() {
-    auth.onAuthStateChanged(authUser => {
+    firebase.auth.onAuthStateChanged(authUser => {
       authUser
         ? this.setState(() => ({ authUser }))
         : this.setState(() => ({ authUser: null }));
