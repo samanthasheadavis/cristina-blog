@@ -5,7 +5,11 @@ const INITIAL_STATE = {
   title: "",
   author: "",
   body: "",
-  error: null
+  formErrors: { title: "", author: "", body: "" },
+  titleValid: false,
+  authorValid: false,
+  bodyValid: false,
+  formValid: false
 };
 
 class Editor extends Component {
@@ -15,29 +19,52 @@ class Editor extends Component {
     console.log("form submitted!");
   }
 
-  validateForm(event) {
-    event.preventDefault();
-    if (this.state.title && this.state.author && this.state.body) {
-      this.setState({ ...INITIAL_STATE });
-      this.handleSubmit();
-    } else {
-      if (!this.state.title) {
-        this.setState({ error: { ...this.state.error, title: true } });
-      }
-      if (!this.state.author) {
-        this.setState({ error: { ...this.state.error, author: true } });
-      }
-      if (!this.state.body) {
-        this.setState({ error: { ...this.state.error, body: true } });
-      }
+  validateField(name, val) {
+    console.log("in");
+    let fieldValidationErrors = this.state.formErrors;
+    let titleValid = this.state.titleValid;
+    let authorValid = this.state.authorValid;
+    let bodyValid = this.state.bodyValid;
+
+    switch (name) {
+      case "title":
+        titleValid = true;
+        fieldValidationErrors.title = titleValid ? "" : " is required.";
+        break;
+      case "author":
+        authorValid = true;
+        fieldValidationErrors.author = authorValid ? "" : " is required.";
+        break;
+      case "body":
+        bodyValid = true;
+        fieldValidationErrors.body = bodyValid ? "" : " is required.";
+        break;
     }
-    console.log(this.state.error);
+
+    this.setState(
+      {
+        formErrors: fieldValidationErrors,
+        titleValid: titleValid,
+        authorValid: authorValid,
+        bodyValid: bodyValid
+      },
+      this.setState({
+        formValid:
+          this.state.titleValid &&
+          this.state.authorValid &&
+          this.state.bodyValid
+      })
+    );
+    console.log(this.state);
   }
 
   handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      },
+      this.validateField(event.target.name, event.target.value)
+    );
   }
 
   render() {
@@ -45,7 +72,7 @@ class Editor extends Component {
     return (
       <div>
         <h2>Article Editor</h2>
-        <form onSubmit={this.validateForm.bind(this)}>
+        <form onSubmit={this.handleSubmit.bind(this)}>
           <label>Title</label>
           <input
             style={{ borderColor: error && error.title ? "red" : "none" }}
@@ -69,7 +96,11 @@ class Editor extends Component {
             name="body"
             onChange={this.handleChange.bind(this)}
           />
-          <input type="submit" value="Submit" />
+          <input
+            type="submit"
+            value="Submit"
+            disabled={!this.state.formValid}
+          />
         </form>
       </div>
     );
