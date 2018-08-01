@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { firebase } from "../../services";
+import { firebase, articleService } from "../../services";
 
 const INITIAL_STATE = {
   title: "",
@@ -16,6 +16,14 @@ class Editor extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    const articleObj = {
+      title: this.state.title,
+      author: this.state.author,
+      body: this.state.body
+    };
+    articleService.AddArticle(articleObj).then(response => {
+      console.log(response);
+    });
   }
 
   validateField(name, val) {
