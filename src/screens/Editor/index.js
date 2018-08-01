@@ -40,7 +40,6 @@ class Editor extends Component {
       bodyValid: bodyValid,
       formValid: titleValid && authorValid && bodyValid
     });
-    console.log(this.state);
   }
 
   handleChange(event) {
@@ -53,22 +52,13 @@ class Editor extends Component {
   }
 
   render() {
-    const {
-      title,
-      author,
-      body,
-      titleValid,
-      authorValid,
-      bodyValid
-    } = this.state;
-    console.log(!titleValid);
+    const { title, author, body } = this.state;
     return (
       <div>
         <h2>Article Editor</h2>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <label>Title</label>
           <input
-            style={{ borderColor: !titleValid ? "red" : "none" }}
             type="text"
             name="title"
             value={title}
@@ -76,7 +66,6 @@ class Editor extends Component {
           />
           <label>Author</label>
           <input
-            style={{ borderColor: !authorValid ? "red" : "none" }}
             type="text"
             name="author"
             value={author}
@@ -84,7 +73,6 @@ class Editor extends Component {
           />
           <label>Body</label>
           <textarea
-            style={{ borderColor: !bodyValid ? "red" : "none" }}
             value={body}
             name="body"
             onChange={this.handleChange.bind(this)}
