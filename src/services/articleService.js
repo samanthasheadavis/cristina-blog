@@ -10,7 +10,7 @@ export const AddArticle = articleObj => {
       created_at: new Date()
     })
     .then(function(docRef) {
-      return docRef.data();
+      return docRef.id;
     })
     .catch(function(error) {
       return error;

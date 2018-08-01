@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { firebase, articleService } from "../../services";
+import { withRouter } from "react-router-dom";
+import { articleService } from "../../services";
 
 const INITIAL_STATE = {
   title: "",
@@ -22,7 +23,7 @@ class Editor extends Component {
       body: this.state.body
     };
     articleService.AddArticle(articleObj).then(response => {
-      console.log(response);
+      this.props.history.push("/dashboard");
     });
   }
 
@@ -96,4 +97,4 @@ class Editor extends Component {
   }
 }
 
-export default Editor;
+export default withRouter(Editor);
