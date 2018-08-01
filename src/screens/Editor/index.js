@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   title: "",
   author: "",
   body: "",
-  formErrors: { title: "", author: "", body: "" },
   titleValid: false,
   authorValid: false,
   bodyValid: false,
@@ -16,45 +15,31 @@ class Editor extends Component {
   state = { ...INITIAL_STATE };
 
   handleSubmit(event) {
-    console.log("form submitted!");
+    event.preventDefault();
   }
 
   validateField(name, val) {
-    console.log("in");
-    let fieldValidationErrors = this.state.formErrors;
     let titleValid = this.state.titleValid;
     let authorValid = this.state.authorValid;
     let bodyValid = this.state.bodyValid;
 
     switch (name) {
       case "title":
-        titleValid = true;
-        fieldValidationErrors.title = titleValid ? "" : " is required.";
+        titleValid = val === "" ? false : true;
         break;
       case "author":
-        authorValid = true;
-        fieldValidationErrors.author = authorValid ? "" : " is required.";
+        authorValid = val === "" ? false : true;
         break;
       case "body":
-        bodyValid = true;
-        fieldValidationErrors.body = bodyValid ? "" : " is required.";
+        bodyValid = val === "" ? false : true;
         break;
     }
-
-    this.setState(
-      {
-        formErrors: fieldValidationErrors,
-        titleValid: titleValid,
-        authorValid: authorValid,
-        bodyValid: bodyValid
-      },
-      this.setState({
-        formValid:
-          this.state.titleValid &&
-          this.state.authorValid &&
-          this.state.bodyValid
-      })
-    );
+    this.setState({
+      titleValid: titleValid,
+      authorValid: authorValid,
+      bodyValid: bodyValid,
+      formValid: titleValid && authorValid && bodyValid
+    });
     console.log(this.state);
   }
 
@@ -68,14 +53,22 @@ class Editor extends Component {
   }
 
   render() {
-    const { title, author, body, error } = this.state;
+    const {
+      title,
+      author,
+      body,
+      titleValid,
+      authorValid,
+      bodyValid
+    } = this.state;
+    console.log(!titleValid);
     return (
       <div>
         <h2>Article Editor</h2>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <label>Title</label>
           <input
-            style={{ borderColor: error && error.title ? "red" : "none" }}
+            style={{ borderColor: !titleValid ? "red" : "none" }}
             type="text"
             name="title"
             value={title}
@@ -83,7 +76,7 @@ class Editor extends Component {
           />
           <label>Author</label>
           <input
-            style={{ borderColor: error && error.author ? "red" : "none" }}
+            style={{ borderColor: !authorValid ? "red" : "none" }}
             type="text"
             name="author"
             value={author}
@@ -91,7 +84,7 @@ class Editor extends Component {
           />
           <label>Body</label>
           <textarea
-            style={{ borderColor: error && error.body ? "red" : "none" }}
+            style={{ borderColor: !bodyValid ? "red" : "none" }}
             value={body}
             name="body"
             onChange={this.handleChange.bind(this)}
