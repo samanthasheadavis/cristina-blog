@@ -68,7 +68,7 @@ class App extends Component {
             render={() => <AdminDashboard articles={this.state.articles} />}
           />
           <Route path="/login" component={Login} />
-          <Route path={"/editor"} component={Editor} />
+          <Route path={"/editor/:articleId?"} component={Editor} />
           <Route path={"/about"} component={About} />
           <Route path={`/articles/:articleId`} component={Article} />
         </div>

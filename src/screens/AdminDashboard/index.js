@@ -7,9 +7,7 @@ class AdminDashboard extends Component {
       return this.props.articles.map(article => (
         <div key={article.id}>
           <p>{article.id}</p>
-          <Link to={"/editor"} params={article}>
-            Edit
-          </Link>
+          <Link to={"/editor/" + article.id}>Edit</Link>
         </div>
       ));
     }

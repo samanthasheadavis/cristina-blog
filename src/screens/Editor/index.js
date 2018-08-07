@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { articleService } from "../../services";
+import { firebase } from "../../services";
 
 const INITIAL_STATE = {
   title: "",
@@ -15,16 +16,47 @@ const INITIAL_STATE = {
 class Editor extends Component {
   state = { ...INITIAL_STATE };
 
+  componentDidMount() {
+    const articleId = this.props.match.params.articleId;
+
+    if (articleId) {
+      firebase.db
+        .collection("articles")
+        .doc(articleId)
+        .get()
+        .then(article => {
+          if (article.exists) {
+            this.setState(article.data());
+            this.setState({
+              titleValid: true,
+              authorValid: true,
+              bodyValid: true,
+              formValid: true
+            });
+          } else {
+            alert("no document found matching ID" + articleId);
+          }
+        });
+    }
+  }
+
   handleSubmit(event) {
     event.preventDefault();
+    const articleId = this.props.match.params.articleId;
     const articleObj = {
       title: this.state.title,
       author: this.state.author,
       body: this.state.body
     };
-    articleService.AddArticle(articleObj).then(response => {
-      this.props.history.push("/dashboard");
-    });
+    if (articleId) {
+      articleService.UpdateArticle(articleObj, articleId).then(response => {
+        this.props.history.push("/dashboard");
+      });
+    } else {
+      articleService.AddArticle(articleObj).then(response => {
+        this.props.history.push("/dashboard");
+      });
+    }
   }
 
   validateField(name, val) {
@@ -61,7 +93,6 @@ class Editor extends Component {
   }
 
   render() {
-    console.log(this);
     const { title, author, body } = this.state;
     return (
       <div>

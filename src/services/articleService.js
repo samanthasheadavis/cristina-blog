@@ -16,3 +16,24 @@ export const AddArticle = articleObj => {
       return error;
     });
 };
+
+export const UpdateArticle = (articleObj, id) => {
+  return firebase.db
+    .collection("articles")
+    .doc(id)
+    .set(
+      {
+        title: articleObj.title,
+        author: articleObj.author,
+        body: articleObj.body,
+        updated_at: new Date()
+      },
+      { merge: true }
+    )
+    .then(function(docRef) {
+      return docRef.id;
+    })
+    .catch(function(error) {
+      return error;
+    });
+};
