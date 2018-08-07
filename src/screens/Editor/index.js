@@ -61,6 +61,7 @@ class Editor extends Component {
   }
 
   render() {
+    console.log(this);
     const { title, author, body } = this.state;
     return (
       <div>

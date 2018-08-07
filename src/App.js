@@ -12,12 +12,15 @@ import Editor from "./screens/Editor";
 import About from "./screens/About";
 import Article from "./screens/Article";
 
+const Spinner = require("react-spinkit");
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      authUser: null
+      authUser: null,
+      articles: []
     };
   }
 
@@ -28,6 +31,24 @@ class App extends Component {
         ? this.setState(() => ({ authUser }))
         : this.setState(() => ({ authUser: null }));
     });
+
+    firebase.db
+      .collection("articles")
+      .get()
+      .then(articles => {
+        // save articles to state
+        articles.forEach(article => {
+          this.setState({
+            articles: [
+              ...this.state.articles,
+              {
+                id: article.id,
+                data: article.data()
+              }
+            ]
+          });
+        });
+      });
   }
 
   render() {
@@ -36,9 +57,16 @@ class App extends Component {
         <div>
           <Navigation authUser={this.state.authUser} />
           <hr />
-          <Route exact path="/" component={Home} />
+          <Route
+            exact
+            path="/"
+            render={() => <Home articles={this.state.articles} />}
+          />
           <Route path="/sign-up" component={SignUp} />
-          <Route path="/dashboard" component={AdminDashboard} />
+          <Route
+            path="/dashboard"
+            render={() => <AdminDashboard articles={this.state.articles} />}
+          />
           <Route path="/login" component={Login} />
           <Route path={"/editor"} component={Editor} />
           <Route path={"/about"} component={About} />
