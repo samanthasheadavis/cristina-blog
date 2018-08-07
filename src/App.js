@@ -31,24 +31,6 @@ class App extends Component {
         ? this.setState(() => ({ authUser }))
         : this.setState(() => ({ authUser: null }));
     });
-
-    firebase.db
-      .collection("articles")
-      .get()
-      .then(articles => {
-        // save articles to state
-        articles.forEach(article => {
-          this.setState({
-            articles: [
-              ...this.state.articles,
-              {
-                id: article.id,
-                data: article.data()
-              }
-            ]
-          });
-        });
-      });
   }
 
   render() {
@@ -57,16 +39,9 @@ class App extends Component {
         <div>
           <Navigation authUser={this.state.authUser} />
           <hr />
-          <Route
-            exact
-            path="/"
-            render={() => <Home articles={this.state.articles} />}
-          />
+          <Route exact path="/" component={Home} />
           <Route path="/sign-up" component={SignUp} />
-          <Route
-            path="/dashboard"
-            render={() => <AdminDashboard articles={this.state.articles} />}
-          />
+          <Route path="/dashboard" component={AdminDashboard} />
           <Route path="/login" component={Login} />
           <Route path={"/editor/:articleId?"} component={Editor} />
           <Route path={"/about"} component={About} />

@@ -4,9 +4,33 @@ import { firebase } from "../../services";
 
 import ArticlePreview from "./components/ArticlePreview";
 class Home extends Component {
+  state = {
+    articles: []
+  };
+
+  componentDidMount() {
+    firebase.db
+      .collection("articles")
+      .get()
+      .then(articles => {
+        // save articles to state
+        articles.forEach(article => {
+          this.setState({
+            articles: [
+              ...this.state.articles,
+              {
+                id: article.id,
+                data: article.data()
+              }
+            ]
+          });
+        });
+      });
+  }
+
   articlesIndex() {
-    if (this.props.articles && this.props.articles.length > 0) {
-      return this.props.articles.map(article => (
+    if (this.state.articles && this.state.articles.length > 0) {
+      return this.state.articles.map(article => (
         <ArticlePreview key={article.id} article={article} />
       ));
     }
