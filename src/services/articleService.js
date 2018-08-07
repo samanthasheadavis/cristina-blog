@@ -30,10 +30,23 @@ export const UpdateArticle = (articleObj, id) => {
       },
       { merge: true }
     )
-    .then(function(docRef) {
+    .then(docRef => {
       return docRef.id;
     })
-    .catch(function(error) {
+    .catch(error => {
+      return error;
+    });
+};
+
+export const DeleteArticle = id => {
+  return firebase.db
+    .collection("articles")
+    .doc(id)
+    .delete()
+    .then(() => {
+      return null;
+    })
+    .catch(error => {
       return error;
     });
 };

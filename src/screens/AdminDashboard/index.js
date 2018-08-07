@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 class AdminDashboard extends Component {
+  componentDidMount() {
+    console.log("in dashboard mount");
+  }
   articlesIndex() {
     if (this.props.articles && this.props.articles.length > 0) {
       return this.props.articles.map(article => (

@@ -92,11 +92,27 @@ class Editor extends Component {
     );
   }
 
+  deleteArticle(id) {
+    articleService.DeleteArticle(id).then(response => {
+      if (response != null) {
+        alert(response);
+      } else {
+        this.props.history.push("/dashboard");
+      }
+    });
+  }
+
   render() {
+    const articleId = this.props.match.params.articleId;
     const { title, author, body } = this.state;
     return (
       <div>
         <h2>Article Editor</h2>
+        {articleId && (
+          <button onClick={() => this.deleteArticle(articleId)}>
+            <p>Delete</p>
+          </button>
+        )}
         <form onSubmit={this.handleSubmit.bind(this)}>
           <label>Title</label>
           <input
