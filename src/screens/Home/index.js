@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { firebase } from "../../services";
 
+import { GridList } from "@material-ui/core";
+
 import ArticlePreview from "./components/ArticlePreview";
 class Home extends Component {
   state = {

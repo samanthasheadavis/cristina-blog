@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import "typeface-roboto";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { firebase } from "./services";
 
