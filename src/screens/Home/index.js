@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { firebase } from "../../services";
+import styles from "../../styles";
 
-import { GridList } from "@material-ui/core";
+import { GridList, Grid } from "@material-ui/core";
 
 import ArticlePreview from "./components/ArticlePreview";
 class Home extends Component {
@@ -40,11 +41,21 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        <h2>Home</h2>
-        <Link to="/about">About</Link>
-        {this.articlesIndex()}
-      </div>
+      <Grid
+        container
+        spacing={16}
+        style={{ paddingLeft: 100, paddingRight: 100 }}
+      >
+        <Grid item xs={6}>
+          <h2>Home</h2>
+        </Grid>
+        <Grid item xs={6}>
+          <Link to="/about">About</Link>
+        </Grid>
+        <Grid item xs={12}>
+          <GridList cols={3}>{this.articlesIndex()}</GridList>
+        </Grid>
+      </Grid>
     );
   }
 }

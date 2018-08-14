@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { firebase } from "../../services";
+import styles from "../../styles";
 
 class AdminDashboard extends Component {
   state = {
@@ -40,7 +41,7 @@ class AdminDashboard extends Component {
 
   render() {
     return (
-      <div>
+      <div style={styles.root}>
         <h2>My Dashboard</h2>
         <Link to={"/editor"}>Create New Article</Link>
         {this.articlesIndex()}
