@@ -46,10 +46,8 @@ class Home extends Component {
         spacing={16}
         style={{ paddingLeft: 100, paddingRight: 100 }}
       >
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <h2>Home</h2>
-        </Grid>
-        <Grid item xs={6}>
           <Link to="/about">About</Link>
         </Grid>
         <Grid item xs={12}>
