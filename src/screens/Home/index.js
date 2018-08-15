@@ -48,7 +48,6 @@ class Home extends Component {
       >
         <Grid item xs={12}>
           <h2>Home</h2>
-          <Link to="/about">About</Link>
         </Grid>
         <Grid item xs={12}>
           <GridList cols={3}>{this.articlesIndex()}</GridList>
