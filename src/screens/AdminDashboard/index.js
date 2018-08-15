@@ -53,9 +53,16 @@ class AdminDashboard extends Component {
               {article.data.updated_at && article.data.updated_at.toDate()}
             </Moment>
           </TableCell>
-          <Button variant="contained" color="primary">
-            Edit
-          </Button>
+          <TableCell>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to={`/editor/${article.id}`}
+            >
+              Edit
+            </Button>
+          </TableCell>
         </TableRow>
       ));
     }
