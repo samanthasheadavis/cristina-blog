@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { articleService } from "../../services";
 import { firebase } from "../../services";
+import { TextField, Button } from "@material-ui/core";
 
 const INITIAL_STATE = {
   title: "",
   author: "",
   body: "",
+  subtitle: "",
+  language: "",
+  tags: [],
+  hidden: true,
   titleValid: false,
   authorValid: false,
   bodyValid: false,
@@ -104,7 +109,15 @@ class Editor extends Component {
 
   render() {
     const articleId = this.props.match.params.articleId;
-    const { title, author, body } = this.state;
+    const {
+      title,
+      author,
+      body,
+      subtitle,
+      language,
+      hidden,
+      tags
+    } = this.state;
     return (
       <div>
         <h2>Article Editor</h2>
@@ -113,32 +126,56 @@ class Editor extends Component {
             <p>Delete</p>
           </button>
         )}
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <label>Title</label>
-          <input
-            type="text"
+        <form onSubmit={this.handleSubmit.bind(this)} style={{ margin: 20 }}>
+          <TextField
             name="title"
+            style={{ display: "block" }}
+            id="with-placeholder"
+            label="Title"
+            placeholder="Title"
+            margin="normal"
             value={title}
             onChange={this.handleChange.bind(this)}
           />
-          <label>Author</label>
-          <input
-            type="text"
+          <TextField
+            name="subtitle"
+            style={{ display: "block" }}
+            id="with-placeholder"
+            label="Subtitle"
+            placeholder="Subtitle (optional)"
+            margin="normal"
+            value={subtitle}
+            onChange={this.handleChange.bind(this)}
+          />
+          <TextField
             name="author"
+            style={{ display: "block" }}
+            id="with-placeholder"
+            label="Author"
+            placeholder="Author"
+            margin="normal"
             value={author}
             onChange={this.handleChange.bind(this)}
           />
-          <label>Body</label>
-          <textarea
-            value={body}
+          <TextField
             name="body"
+            id="textarea"
+            label="Body"
+            placeholder="Article text"
+            multiline
+            margin="normal"
+            fullWidth
             onChange={this.handleChange.bind(this)}
+            value={body}
           />
-          <input
-            type="submit"
-            value="Submit"
+
+          <Button
+            variant="contained"
+            color="primary"
             disabled={!this.state.formValid}
-          />
+          >
+            Save
+          </Button>
         </form>
       </div>
     );

@@ -38,7 +38,6 @@ class App extends Component {
       <Router>
         <div>
           <Navigation authUser={this.state.authUser} />
-          <hr />
           <Route exact path="/" component={Home} />
           <Route path="/sign-up" component={SignUp} />
           <Route path="/dashboard" component={AdminDashboard} />
