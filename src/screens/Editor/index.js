@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { articleService } from "../../services";
 import { firebase } from "../../services";
-import { TextField, Button } from "@material-ui/core";
+import {
+  TextField,
+  Button,
+  Paper,
+  Typography,
+  Input,
+  InputLabel
+} from "@material-ui/core";
 
 const INITIAL_STATE = {
   title: "",
@@ -119,14 +126,26 @@ class Editor extends Component {
       tags
     } = this.state;
     return (
-      <div>
-        <h2>Article Editor</h2>
+      <Paper
+        elevation={1}
+        style={{
+          flex: 1,
+          margin: 20,
+          paddingLeft: 20,
+          paddingRight: 20,
+          paddingBottom: 20,
+          paddingTop: 10
+        }}
+      >
+        <Typography variant="headline" component="h3">
+          Article Editor
+        </Typography>
         {articleId && (
           <button onClick={() => this.deleteArticle(articleId)}>
             <p>Delete</p>
           </button>
         )}
-        <form onSubmit={this.handleSubmit.bind(this)} style={{ margin: 20 }}>
+        <form onSubmit={this.handleSubmit.bind(this)}>
           <TextField
             name="title"
             style={{ display: "block" }}
@@ -157,19 +176,21 @@ class Editor extends Component {
             value={author}
             onChange={this.handleChange.bind(this)}
           />
-          <TextField
-            name="body"
-            id="textarea"
-            label="Body"
-            placeholder="Article text"
-            multiline
-            margin="normal"
-            fullWidth
-            onChange={this.handleChange.bind(this)}
-            value={body}
-          />
-
+          <Paper elevation={2} style={{ marginTop: 20, padding: 10, flex: 1 }}>
+            <InputLabel style={{ marginTop: 20 }}>Body</InputLabel>
+            <Input
+              disableUnderline={true}
+              name="body"
+              id="textarea"
+              multiline
+              margin="normal"
+              fullWidth
+              onChange={this.handleChange.bind(this)}
+              value={body}
+            />
+          </Paper>
           <Button
+            style={{ marginTop: 20 }}
             variant="contained"
             color="primary"
             disabled={!this.state.formValid}
@@ -177,7 +198,7 @@ class Editor extends Component {
             Save
           </Button>
         </form>
-      </div>
+      </Paper>
     );
   }
 }
