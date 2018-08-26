@@ -8,7 +8,9 @@ import {
   Paper,
   Typography,
   Input,
-  InputLabel
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from "@material-ui/core";
 
 const INITIAL_STATE = {
@@ -146,49 +148,63 @@ class Editor extends Component {
           </button>
         )}
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <TextField
-            name="title"
-            style={{ display: "block" }}
-            id="with-placeholder"
-            label="Title"
-            placeholder="Title"
-            margin="normal"
-            value={title}
-            onChange={this.handleChange.bind(this)}
-          />
-          <TextField
-            name="subtitle"
-            style={{ display: "block" }}
-            id="with-placeholder"
-            label="Subtitle"
-            placeholder="Subtitle (optional)"
-            margin="normal"
-            value={subtitle}
-            onChange={this.handleChange.bind(this)}
-          />
-          <TextField
-            name="author"
-            style={{ display: "block" }}
-            id="with-placeholder"
-            label="Author"
-            placeholder="Author"
-            margin="normal"
-            value={author}
-            onChange={this.handleChange.bind(this)}
-          />
-          <Paper elevation={2} style={{ marginTop: 20, padding: 10, flex: 1 }}>
-            <InputLabel style={{ marginTop: 20 }}>Body</InputLabel>
-            <Input
-              disableUnderline={true}
-              name="body"
-              id="textarea"
-              multiline
+          <FormGroup>
+            <TextField
+              name="title"
+              style={{ display: "block" }}
+              id="with-placeholder"
+              label="Title"
+              placeholder="Title"
               margin="normal"
-              fullWidth
+              value={title}
               onChange={this.handleChange.bind(this)}
-              value={body}
             />
-          </Paper>
+            <TextField
+              name="subtitle"
+              style={{ display: "block" }}
+              id="with-placeholder"
+              label="Subtitle"
+              placeholder="Subtitle (optional)"
+              margin="normal"
+              value={subtitle}
+              onChange={this.handleChange.bind(this)}
+            />
+            <TextField
+              name="author"
+              style={{ display: "block" }}
+              id="with-placeholder"
+              label="Author"
+              placeholder="Author"
+              margin="normal"
+              value={author}
+              onChange={this.handleChange.bind(this)}
+            />
+          </FormGroup>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox value="antoine" />}
+              label="Antoine Llorca"
+            />
+          </FormGroup>
+
+          <FormGroup>
+            <Paper
+              elevation={2}
+              style={{ marginTop: 20, padding: 10, flex: 1 }}
+            >
+              <Input
+                disableUnderline={true}
+                name="body"
+                id="textarea"
+                multiline
+                margin="normal"
+                fullWidth
+                placeholder="Body"
+                onChange={this.handleChange.bind(this)}
+                value={body}
+              />
+            </Paper>
+          </FormGroup>
           <Button
             style={{ marginTop: 20 }}
             variant="contained"
