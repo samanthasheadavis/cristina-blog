@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   Checkbox
 } from "@material-ui/core";
+import styles from "../../styles";
 
 const INITIAL_STATE = {
   title: "",
@@ -128,93 +129,101 @@ class Editor extends Component {
       tags
     } = this.state;
     return (
-      <Paper
-        elevation={1}
-        style={{
-          flex: 1,
-          margin: 20,
-          paddingLeft: 20,
-          paddingRight: 20,
-          paddingBottom: 20,
-          paddingTop: 10
-        }}
-      >
-        <Typography variant="headline" component="h3">
-          Article Editor
-        </Typography>
-        {articleId && (
-          <button onClick={() => this.deleteArticle(articleId)}>
-            <p>Delete</p>
-          </button>
-        )}
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <FormGroup>
-            <TextField
-              name="title"
-              style={{ display: "block" }}
-              id="with-placeholder"
-              label="Title"
-              placeholder="Title"
-              margin="normal"
-              value={title}
-              onChange={this.handleChange.bind(this)}
-            />
-            <TextField
-              name="subtitle"
-              style={{ display: "block" }}
-              id="with-placeholder"
-              label="Subtitle"
-              placeholder="Subtitle (optional)"
-              margin="normal"
-              value={subtitle}
-              onChange={this.handleChange.bind(this)}
-            />
-            <TextField
-              name="author"
-              style={{ display: "block" }}
-              id="with-placeholder"
-              label="Author"
-              placeholder="Author"
-              margin="normal"
-              value={author}
-              onChange={this.handleChange.bind(this)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox value="antoine" />}
-              label="Antoine Llorca"
-            />
-          </FormGroup>
+      <div style={styles.root}>
+        <Paper
+          elevation={1}
+          style={{
+            flex: 1,
+            margin: 20,
+            paddingLeft: 20,
+            paddingRight: 20,
+            paddingBottom: 20,
+            paddingTop: 10
+          }}
+        >
+          <Typography variant="headline" component="h3">
+            Article Editor
+          </Typography>
 
-          <FormGroup>
-            <Paper
-              elevation={2}
-              style={{ marginTop: 20, padding: 10, flex: 1 }}
-            >
-              <Input
-                disableUnderline={true}
-                name="body"
-                id="textarea"
-                multiline
+          <form onSubmit={this.handleSubmit.bind(this)}>
+            <FormGroup>
+              <TextField
+                name="title"
+                style={{ display: "block" }}
+                id="with-placeholder"
+                label="Title"
+                placeholder="Title"
                 margin="normal"
-                fullWidth
-                placeholder="Body"
+                value={title}
                 onChange={this.handleChange.bind(this)}
-                value={body}
               />
-            </Paper>
-          </FormGroup>
-          <Button
-            style={{ marginTop: 20 }}
-            variant="contained"
-            color="primary"
-            disabled={!this.state.formValid}
-          >
-            Save
-          </Button>
-        </form>
-      </Paper>
+              <TextField
+                name="subtitle"
+                style={{ display: "block" }}
+                id="with-placeholder"
+                label="Subtitle"
+                placeholder="Subtitle (optional)"
+                margin="normal"
+                value={subtitle}
+                onChange={this.handleChange.bind(this)}
+              />
+              <TextField
+                name="author"
+                style={{ display: "block" }}
+                id="with-placeholder"
+                label="Author"
+                placeholder="Author"
+                margin="normal"
+                value={author}
+                onChange={this.handleChange.bind(this)}
+              />
+            </FormGroup>
+            <FormGroup>
+              <FormControlLabel
+                control={<Checkbox value="antoine" />}
+                label="Antoine Llorca"
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Paper
+                elevation={2}
+                style={{ marginTop: 20, padding: 10, flex: 1 }}
+              >
+                <Input
+                  disableUnderline={true}
+                  name="body"
+                  id="textarea"
+                  multiline
+                  margin="normal"
+                  fullWidth
+                  placeholder="Body"
+                  onChange={this.handleChange.bind(this)}
+                  value={body}
+                />
+              </Paper>
+            </FormGroup>
+            <Button
+              style={{ marginTop: 20, marginRight: 20 }}
+              variant="contained"
+              color="primary"
+              disabled={!this.state.formValid}
+            >
+              Save
+            </Button>
+            {articleId && (
+              <Button
+                style={{ marginTop: 20, backgroundColor: "red" }}
+                variant="contained"
+                onClick={() => this.deleteArticle(articleId)}
+                color="primary"
+              >
+                Delete
+              </Button>
+            )}
+          </form>
+        </Paper>
+      </div>
     );
   }
 }

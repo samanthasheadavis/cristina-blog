@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import styles from "../../styles";
+import { Typography } from "@material-ui/core";
 
 class About extends Component {
   render() {
     return (
-      <div>
-        <h2>About</h2>
+      <div style={styles.root}>
+        <Typography variant="headline" component="h3">
+          About
+        </Typography>
       </div>
     );
   }

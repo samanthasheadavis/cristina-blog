@@ -13,6 +13,9 @@ const NavigationAuth = () => (
       <Typography variant="title" color="inherit" style={{ flexGrow: 1 }}>
         Baturra
       </Typography>
+      <Button color="inherit" component={Link} to="/about">
+        About
+      </Button>
       <Button color="inherit" component={Link} to="/">
         BLOG
       </Button>

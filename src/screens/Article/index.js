@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { firebase } from "../../services";
+import styles from "../../styles";
+import { Typography } from "@material-ui/core";
+
 const Spinner = require("react-spinkit");
 
 class Article extends Component {
@@ -31,15 +34,15 @@ class Article extends Component {
     if (this.state.article) {
       const { article } = this.state;
       return (
-        <div>
-          <h1>{article.data.title}</h1>
-          <h2>by {article.data.author}</h2>
-          <p>{article.data.body}</p>
+        <div style={styles.root}>
+          <Typography variant="headline" component="h3">
+            {article.data.title}
+          </Typography>
         </div>
       );
     } else {
       return (
-        <div>
+        <div style={styles.root}>
           <Spinner name="pacman" />
         </div>
       );

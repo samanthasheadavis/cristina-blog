@@ -8,8 +8,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Button
+  Button,
+  Typography,
+  Grid
 } from "@material-ui/core";
+import styles from "../../styles";
 
 class AdminDashboard extends Component {
   state = {
@@ -40,7 +43,9 @@ class AdminDashboard extends Component {
     if (this.state.articles && this.state.articles.length > 0) {
       return this.state.articles.map(article => (
         <TableRow key={article.id}>
-          <TableCell>{article.data.title}</TableCell>
+          <TableCell>
+            <Link to={`/articles/${article.id}`}>{article.data.title}</Link>
+          </TableCell>
           <TableCell>{article.data.author}</TableCell>
           <TableCell>{article.data.language}</TableCell>
           <TableCell>
@@ -70,8 +75,10 @@ class AdminDashboard extends Component {
 
   render() {
     return (
-      <div>
-        <h2>My Dashboard</h2>
+      <div style={styles.root}>
+        <Typography variant="headline" component="h3">
+          My Dashboard
+        </Typography>
         <Link to={"/editor"}>Create New Article</Link>
         <Table>
           <TableHead>

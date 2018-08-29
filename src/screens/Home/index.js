@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { firebase } from "../../services";
 import styles from "../../styles";
 
-import { GridList, Grid } from "@material-ui/core";
+import { GridList, Grid, Typography } from "@material-ui/core";
 
 import ArticlePreview from "./components/ArticlePreview";
 class Home extends Component {
@@ -41,18 +41,14 @@ class Home extends Component {
 
   render() {
     return (
-      <Grid
-        container
-        spacing={16}
-        style={{ paddingLeft: 100, paddingRight: 100 }}
-      >
-        <Grid item xs={12}>
-          <h2>Home</h2>
+      <div style={styles.root}>
+        <Grid container spacing={16}>
+          <Grid item xs={12} />
+          <Grid item xs={12}>
+            <GridList cols={3}>{this.articlesIndex()}</GridList>
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <GridList cols={3}>{this.articlesIndex()}</GridList>
-        </Grid>
-      </Grid>
+      </div>
     );
   }
 }
