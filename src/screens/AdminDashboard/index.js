@@ -76,10 +76,20 @@ class AdminDashboard extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <Typography variant="headline" component="h3">
-          My Dashboard
-        </Typography>
-        <Link to={"/editor"}>Create New Article</Link>
+        <Grid container xs={12} direction={"row"} justify={"space-between"}>
+          <Typography variant="headline" component="h3">
+            My Dashboard
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to={`/editor`}
+          >
+            Create New Article
+          </Button>
+        </Grid>
+
         <Table>
           <TableHead>
             <TableRow>

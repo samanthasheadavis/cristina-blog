@@ -8,9 +8,10 @@ import {
   Paper,
   Typography,
   Input,
-  FormGroup,
+  Grid,
   FormControlLabel,
-  Checkbox
+  Checkbox,
+  FormLabel
 } from "@material-ui/core";
 import styles from "../../styles";
 
@@ -25,6 +26,7 @@ const INITIAL_STATE = {
   titleValid: false,
   authorValid: false,
   bodyValid: false,
+  languageValid: false,
   formValid: false
 };
 
@@ -46,6 +48,7 @@ class Editor extends Component {
               titleValid: true,
               authorValid: true,
               bodyValid: true,
+              languageValid: true,
               formValid: true
             });
           } else {
@@ -60,16 +63,19 @@ class Editor extends Component {
     const articleId = this.props.match.params.articleId;
     const articleObj = {
       title: this.state.title,
+      subtitle: this.state.subtitle,
       author: this.state.author,
-      body: this.state.body
+      body: this.state.body,
+      language: this.state.language
     };
+    console.log(articleObj);
     if (articleId) {
       articleService.UpdateArticle(articleObj, articleId).then(response => {
-        this.props.history.push("/dashboard");
+        // this.props.history.push("/dashboard");
       });
     } else {
       articleService.AddArticle(articleObj).then(response => {
-        this.props.history.push("/dashboard");
+        // this.props.history.push("/dashboard");
       });
     }
   }
@@ -78,6 +84,7 @@ class Editor extends Component {
     let titleValid = this.state.titleValid;
     let authorValid = this.state.authorValid;
     let bodyValid = this.state.bodyValid;
+    let languageValid = this.state.languageValid;
 
     switch (name) {
       case "title":
@@ -89,12 +96,16 @@ class Editor extends Component {
       case "body":
         bodyValid = val === "" ? false : true;
         break;
+      case "language":
+        languageValid = val === "" ? false : true;
+        break;
     }
     this.setState({
       titleValid: titleValid,
       authorValid: authorValid,
       bodyValid: bodyValid,
-      formValid: titleValid && authorValid && bodyValid
+      languageValid: languageValid,
+      formValid: titleValid && authorValid && bodyValid && languageValid
     });
   }
 
@@ -141,87 +152,111 @@ class Editor extends Component {
             paddingTop: 10
           }}
         >
-          <Typography variant="headline" component="h3">
-            Article Editor
-          </Typography>
+          <Grid container direction={"column"}>
+            <Grid container direction={"column"}>
+              <Typography variant="headline" component="h3">
+                Article Editor
+              </Typography>
+            </Grid>
 
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <FormGroup>
-              <TextField
-                name="title"
-                style={{ display: "block" }}
-                id="with-placeholder"
-                label="Title"
-                placeholder="Title"
-                margin="normal"
-                value={title}
-                onChange={this.handleChange.bind(this)}
-              />
-              <TextField
-                name="subtitle"
-                style={{ display: "block" }}
-                id="with-placeholder"
-                label="Subtitle"
-                placeholder="Subtitle (optional)"
-                margin="normal"
-                value={subtitle}
-                onChange={this.handleChange.bind(this)}
-              />
-              <TextField
-                name="author"
-                style={{ display: "block" }}
-                id="with-placeholder"
-                label="Author"
-                placeholder="Author"
-                margin="normal"
-                value={author}
-                onChange={this.handleChange.bind(this)}
-              />
-            </FormGroup>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox value="antoine" />}
-                label="Antoine Llorca"
-              />
-            </FormGroup>
+            <form onSubmit={this.handleSubmit.bind(this)}>
+              <Grid container direction={"row"} justify={"space-between"}>
+                <Grid item xs={6}>
+                  <TextField
+                    name="title"
+                    style={{ display: "block" }}
+                    id="with-placeholder"
+                    label="Title"
+                    placeholder="Title"
+                    value={title}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  <TextField
+                    name="subtitle"
+                    style={{ display: "block" }}
+                    id="with-placeholder"
+                    label="Subtitle"
+                    placeholder="Subtitle (optional)"
+                    value={subtitle}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                  <TextField
+                    name="author"
+                    style={{ display: "block" }}
+                    id="with-placeholder"
+                    label="Author"
+                    placeholder="Author"
+                    value={author}
+                    onChange={this.handleChange.bind(this)}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormLabel component="legend">Language</FormLabel>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={language === "english"}
+                        name="language"
+                        value={"english"}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    }
+                    label="English"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={language === "spanish"}
+                        name="language"
+                        value={"spanish"}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    }
+                    label="Spanish"
+                  />
+                </Grid>
+              </Grid>
 
-            <FormGroup>
-              <Paper
-                elevation={2}
-                style={{ marginTop: 20, padding: 10, flex: 1 }}
-              >
-                <Input
-                  disableUnderline={true}
-                  name="body"
-                  id="textarea"
-                  multiline
-                  margin="normal"
-                  fullWidth
-                  placeholder="Body"
-                  onChange={this.handleChange.bind(this)}
-                  value={body}
-                />
-              </Paper>
-            </FormGroup>
-            <Button
-              style={{ marginTop: 20, marginRight: 20 }}
-              variant="contained"
-              color="primary"
-              disabled={!this.state.formValid}
-            >
-              Save
-            </Button>
-            {articleId && (
-              <Button
-                style={{ marginTop: 20, backgroundColor: "red" }}
-                variant="contained"
-                onClick={() => this.deleteArticle(articleId)}
-                color="primary"
-              >
-                Delete
-              </Button>
-            )}
-          </form>
+              <Grid container direction={"column"}>
+                <Paper
+                  elevation={2}
+                  style={{ marginTop: 20, padding: 10, flex: 1 }}
+                >
+                  <Input
+                    disableUnderline={true}
+                    name="body"
+                    id="textarea"
+                    multiline
+                    fullWidth
+                    placeholder="Body"
+                    onChange={this.handleChange.bind(this)}
+                    value={body}
+                  />
+                </Paper>
+              </Grid>
+              <Grid container direction={"row"}>
+                <Button
+                  style={{ marginTop: 20, marginRight: 20 }}
+                  variant="contained"
+                  color="primary"
+                  disabled={!this.state.formValid}
+                  type={"submit"}
+                >
+                  Save
+                </Button>
+                {articleId && (
+                  <Button
+                    style={{ marginTop: 20, backgroundColor: "red" }}
+                    variant="contained"
+                    onClick={() => this.deleteArticle(articleId)}
+                    color="primary"
+                  >
+                    Delete
+                  </Button>
+                )}
+              </Grid>
+            </form>
+          </Grid>
         </Paper>
       </div>
     );

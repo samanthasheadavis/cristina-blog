@@ -6,6 +6,8 @@ export const AddArticle = articleObj => {
     .add({
       title: articleObj.title,
       author: articleObj.author,
+      subtitle: articleObj.subtitle,
+      language: articleObj.language,
       body: articleObj.body,
       created_at: new Date()
     })
@@ -25,6 +27,8 @@ export const UpdateArticle = (articleObj, id) => {
       {
         title: articleObj.title,
         author: articleObj.author,
+        subtitle: articleObj.subtitle,
+        language: articleObj.language,
         body: articleObj.body,
         updated_at: new Date()
       },
