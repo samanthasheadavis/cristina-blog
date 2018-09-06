@@ -76,7 +76,7 @@ class AdminDashboard extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <Grid container xs={12} direction={"row"} justify={"space-between"}>
+        <Grid container direction={"row"} justify={"space-between"}>
           <Typography variant="headline" component="h3">
             My Dashboard
           </Typography>

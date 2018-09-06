@@ -9,7 +9,8 @@ export const AddArticle = articleObj => {
       subtitle: articleObj.subtitle,
       language: articleObj.language,
       body: articleObj.body,
-      created_at: new Date()
+      created_at: new Date(),
+      hidden: articleObj.hidden
     })
     .then(function(docRef) {
       return docRef.id;
@@ -30,7 +31,8 @@ export const UpdateArticle = (articleObj, id) => {
         subtitle: articleObj.subtitle,
         language: articleObj.language,
         body: articleObj.body,
-        updated_at: new Date()
+        updated_at: new Date(),
+        hidden: articleObj.hidden
       },
       { merge: true }
     )

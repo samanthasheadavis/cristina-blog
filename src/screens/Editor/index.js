@@ -11,7 +11,8 @@ import {
   Grid,
   FormControlLabel,
   Checkbox,
-  FormLabel
+  FormLabel,
+  FormHelperText
 } from "@material-ui/core";
 import styles from "../../styles";
 
@@ -22,7 +23,7 @@ const INITIAL_STATE = {
   subtitle: "",
   language: "",
   tags: [],
-  hidden: true,
+  hidden: false,
   titleValid: false,
   authorValid: false,
   bodyValid: false,
@@ -66,16 +67,16 @@ class Editor extends Component {
       subtitle: this.state.subtitle,
       author: this.state.author,
       body: this.state.body,
-      language: this.state.language
+      language: this.state.language,
+      hidden: this.state.hidden
     };
-    console.log(articleObj);
     if (articleId) {
       articleService.UpdateArticle(articleObj, articleId).then(response => {
-        // this.props.history.push("/dashboard");
+        this.props.history.push("/dashboard");
       });
     } else {
       articleService.AddArticle(articleObj).then(response => {
-        // this.props.history.push("/dashboard");
+        this.props.history.push("/dashboard");
       });
     }
   }
@@ -110,12 +111,14 @@ class Editor extends Component {
   }
 
   handleChange(event) {
-    this.setState(
-      {
-        [event.target.name]: event.target.value
-      },
-      this.validateField(event.target.name, event.target.value)
-    );
+    if (event.target.name === "hidden") {
+      this.setState({ hidden: !this.state.hidden });
+    } else {
+      this.setState(
+        { [event.target.name]: event.target.value },
+        this.validateField(event.target.name, event.target.value)
+      );
+    }
   }
 
   deleteArticle(id) {
@@ -136,8 +139,8 @@ class Editor extends Component {
       body,
       subtitle,
       language,
-      hidden,
-      tags
+      tags,
+      hidden
     } = this.state;
     return (
       <div style={styles.root}>
@@ -213,6 +216,22 @@ class Editor extends Component {
                       />
                     }
                     label="Spanish"
+                  />
+                  <FormLabel component="legend">Private</FormLabel>
+                  <FormHelperText>
+                    Private articles will not be displayed on the Baturra Blog
+                    public page.
+                  </FormHelperText>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={hidden === true}
+                        name="hidden"
+                        value={hidden.toString()}
+                        onChange={this.handleChange.bind(this)}
+                      />
+                    }
+                    label="Private"
                   />
                 </Grid>
               </Grid>
