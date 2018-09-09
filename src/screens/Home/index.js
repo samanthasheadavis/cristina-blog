@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { firebase } from "../../services";
 import styles from "../../styles";
 
-import { GridList, Grid, Typography } from "@material-ui/core";
+import { GridList, Grid } from "@material-ui/core";
 
 import ArticlePreview from "./components/ArticlePreview";
 class Home extends Component {
@@ -36,6 +35,8 @@ class Home extends Component {
       return this.state.articles.map(article => (
         <ArticlePreview key={article.id} article={article} />
       ));
+    } else {
+      return <div />;
     }
   }
 

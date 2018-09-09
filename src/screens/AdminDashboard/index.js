@@ -70,6 +70,8 @@ class AdminDashboard extends Component {
           </TableCell>
         </TableRow>
       ));
+    } else {
+      return <TableRow />;
     }
   }
 

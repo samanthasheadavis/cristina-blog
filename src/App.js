@@ -12,8 +12,6 @@ import Editor from "./screens/Editor";
 import About from "./screens/About";
 import Article from "./screens/Article";
 
-const Spinner = require("react-spinkit");
-
 class App extends Component {
   constructor(props) {
     super(props);

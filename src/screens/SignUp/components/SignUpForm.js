@@ -5,7 +5,6 @@ import { auth } from "../../../services";
 import { LoginLink } from "../../Login/components/LoginForm";
 
 const INITIAL_STATE = {
-  username: "",
   email: "",
   passwordOne: "",
   passwordTwo: "",
@@ -23,7 +22,7 @@ class SignUpForm extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+    const { email, passwordOne } = this.state;
     event.preventDefault();
     auth
       .CreateUserWithEmailAndPassword(email, passwordOne)
@@ -37,25 +36,13 @@ class SignUpForm extends Component {
   };
 
   render() {
-    const { username, email, passwordOne, passwordTwo, error } = this.state;
-    const { history } = this.props;
+    const { email, passwordOne, passwordTwo, error } = this.state;
     const isInvalid =
-      passwordOne !== passwordTwo ||
-      passwordOne === "" ||
-      email === "" ||
-      username === "";
+      passwordOne !== passwordTwo || passwordOne === "" || email === "";
 
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <input
-            value={username}
-            onChange={event =>
-              this.setState(byPropKey("username", event.target.value))
-            }
-            type="text"
-            placeholder="Full Name"
-          />
           <input
             value={email}
             onChange={event =>

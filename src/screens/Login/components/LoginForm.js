@@ -37,7 +37,6 @@ class LoginForm extends Component {
 
   render() {
     const { email, password, error } = this.state;
-    const { history } = this.props;
     const isInvalid = password === "" || email === "";
     return (
       <div>

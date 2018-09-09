@@ -100,6 +100,8 @@ class Editor extends Component {
       case "language":
         languageValid = val === "" ? false : true;
         break;
+      default:
+        console.log("invalid field type for validation");
     }
     this.setState({
       titleValid: titleValid,
