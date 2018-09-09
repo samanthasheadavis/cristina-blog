@@ -12,7 +12,6 @@
     "react-moment": "^0.7.9",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
-    "react-spinkit": "^3.0.0",
     "typeface-roboto": "0.0.54"
   },
   "scripts": {

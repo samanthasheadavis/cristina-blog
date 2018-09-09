@@ -12,7 +12,8 @@ import {
   FormControlLabel,
   Checkbox,
   FormLabel,
-  FormHelperText
+  FormHelperText,
+  Chip
 } from "@material-ui/core";
 import styles from "../../styles";
 
@@ -22,8 +23,9 @@ const INITIAL_STATE = {
   body: "",
   subtitle: "",
   language: "",
+  tagsString: "",
   tags: [],
-  hidden: false,
+  hidden: true,
   titleValid: false,
   authorValid: false,
   bodyValid: false,
@@ -68,7 +70,8 @@ class Editor extends Component {
       author: this.state.author,
       body: this.state.body,
       language: this.state.language,
-      hidden: this.state.hidden
+      hidden: this.state.hidden,
+      tags: this.state.tags
     };
     if (articleId) {
       articleService.UpdateArticle(articleObj, articleId).then(response => {
@@ -101,7 +104,7 @@ class Editor extends Component {
         languageValid = val === "" ? false : true;
         break;
       default:
-        console.log("invalid field type for validation");
+        return null;
     }
     this.setState({
       titleValid: titleValid,
@@ -123,6 +126,26 @@ class Editor extends Component {
     }
   }
 
+  handleTagSubmit(event) {
+    event.preventDefault;
+    var code = event.keyCode || event.which;
+    if (code === 13) {
+      const str = this.state.tagsString;
+      const noWhiteSpace = str.replace(/\s+/g, "");
+      this.setState({
+        tags: [...this.state.tags, noWhiteSpace],
+        tagsString: ""
+      });
+    }
+  }
+
+  handleChipDelete(item) {
+    const tags = [...this.state.tags];
+    const index = tags.indexOf(item);
+    tags.splice(index, 1);
+    this.setState({ tags: tags });
+  }
+
   deleteArticle(id) {
     articleService.DeleteArticle(id).then(response => {
       if (response != null) {
@@ -141,7 +164,7 @@ class Editor extends Component {
       body,
       subtitle,
       language,
-      tags,
+      tagsString,
       hidden
     } = this.state;
     return (
@@ -166,11 +189,13 @@ class Editor extends Component {
 
             <form onSubmit={this.handleSubmit.bind(this)}>
               <Grid container direction={"row"} justify={"space-between"}>
-                <Grid item xs={6}>
+                {/* ================================= BLOCK 1: TITLE, SUBTITLE, AUTHOR ==================================== */}
+                <Grid item xs={6} style={{ paddingRight: 20 }}>
                   <TextField
                     name="title"
                     style={{ display: "block" }}
                     id="with-placeholder"
+                    fullWidth
                     label="Title"
                     placeholder="Title"
                     value={title}
@@ -180,6 +205,7 @@ class Editor extends Component {
                     name="subtitle"
                     style={{ display: "block" }}
                     id="with-placeholder"
+                    fullWidth
                     label="Subtitle"
                     placeholder="Subtitle (optional)"
                     value={subtitle}
@@ -189,12 +215,15 @@ class Editor extends Component {
                     name="author"
                     style={{ display: "block" }}
                     id="with-placeholder"
+                    fullWidth
                     label="Author"
                     placeholder="Author"
                     value={author}
                     onChange={this.handleChange.bind(this)}
                   />
                 </Grid>
+                {/* ================================= BLOCK 2: LANGUAGE, PRIVATE ==================================== */}
+
                 <Grid item xs={6}>
                   <FormLabel component="legend">Language</FormLabel>
                   <FormControlLabel
@@ -237,8 +266,42 @@ class Editor extends Component {
                   />
                 </Grid>
               </Grid>
-
+              {/* ================================= BLOCK 3: TAGS, BODY ==================================== */}
               <Grid container direction={"column"}>
+                <Paper
+                  elevation={2}
+                  style={{
+                    marginTop: 20,
+                    padding: 10,
+                    flex: 1,
+                    flexDirection: "row"
+                  }}
+                >
+                  {this.state.tags &&
+                    this.state.tags.length > 0 &&
+                    this.state.tags.map((tag, i) => (
+                      <Chip
+                        key={i}
+                        style={{ marginRight: 10 }}
+                        label={tag}
+                        onDelete={() => this.handleChipDelete(tag)}
+                      />
+                    ))}
+                  <Input
+                    disableUnderline={true}
+                    name="tagsString"
+                    id="textarea"
+                    placeholder="Tags (optional)"
+                    onChange={this.handleChange.bind(this)}
+                    onKeyPress={this.handleTagSubmit.bind(this)}
+                    value={tagsString}
+                  />
+                </Paper>
+                <FormHelperText>
+                  Enter tags seperated by commas i.e. "education, permaculture".
+                  Tags are not case sensitive.
+                </FormHelperText>
+
                 <Paper
                   elevation={2}
                   style={{ marginTop: 20, padding: 10, flex: 1 }}
@@ -255,13 +318,16 @@ class Editor extends Component {
                   />
                 </Paper>
               </Grid>
+              {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}
+
               <Grid container direction={"row"}>
                 <Button
                   style={{ marginTop: 20, marginRight: 20 }}
                   variant="contained"
                   color="primary"
                   disabled={!this.state.formValid}
-                  type={"submit"}
+                  type={"button"}
+                  onClick={this.handleSubmit.bind(this)}
                 >
                   Save
                 </Button>

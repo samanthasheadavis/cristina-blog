@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { firebase } from "../../services";
 import styles from "../../styles";
-import { Typography } from "@material-ui/core";
-
-const Spinner = require("react-spinkit");
+import { Typography, CircularProgress } from "@material-ui/core";
 
 class Article extends Component {
   state = {
@@ -43,7 +41,7 @@ class Article extends Component {
     } else {
       return (
         <div style={styles.root}>
-          <Spinner name="pacman" />
+          <CircularProgress />
         </div>
       );
     }
