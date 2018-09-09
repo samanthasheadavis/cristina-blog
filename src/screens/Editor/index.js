@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { articleService } from "../../services";
 import { firebase } from "../../services";
+import TextEditor from "./components/TextEditor";
+
 import {
   TextField,
   Button,
@@ -111,7 +113,7 @@ class Editor extends Component {
       authorValid: authorValid,
       bodyValid: bodyValid,
       languageValid: languageValid,
-      formValid: titleValid && authorValid && bodyValid && languageValid
+      formValid: titleValid && authorValid && languageValid
     });
   }
 
@@ -302,21 +304,7 @@ class Editor extends Component {
                   Tags are not case sensitive.
                 </FormHelperText>
 
-                <Paper
-                  elevation={2}
-                  style={{ marginTop: 20, padding: 10, flex: 1 }}
-                >
-                  <Input
-                    disableUnderline={true}
-                    name="body"
-                    id="textarea"
-                    multiline
-                    fullWidth
-                    placeholder="Body"
-                    onChange={this.handleChange.bind(this)}
-                    value={body}
-                  />
-                </Paper>
+                <TextEditor />
               </Grid>
               {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}
 
