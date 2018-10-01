@@ -129,7 +129,7 @@ class Editor extends Component {
   }
 
   handleTagSubmit(event) {
-    event.preventDefault;
+    event.preventDefault();
     var code = event.keyCode || event.which;
     if (code === 13) {
       const str = this.state.tagsString;
@@ -163,7 +163,6 @@ class Editor extends Component {
     const {
       title,
       author,
-      body,
       subtitle,
       language,
       tagsString,
@@ -304,7 +303,7 @@ class Editor extends Component {
                   Tags are not case sensitive.
                 </FormHelperText>
 
-                <TextEditor />
+                <TextEditor self={this} />
               </Grid>
               {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}
 

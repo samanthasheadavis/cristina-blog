@@ -36,6 +36,7 @@ class Article extends Component {
           <Typography variant="headline" component="h3">
             {article.data.title}
           </Typography>
+          <p>{article.data.body}</p>
         </div>
       );
     } else {

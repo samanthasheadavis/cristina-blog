@@ -1,12 +1,20 @@
 import React from "react";
-import { Editor, EditorState, RichUtils } from "draft-js";
+import { Editor, EditorState, RichUtils, convertToRaw } from "draft-js";
 import { Paper, FormLabel } from "@material-ui/core";
 
 class TextEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = { editorState: EditorState.createEmpty() };
-    this.onChange = editorState => this.setState({ editorState });
+    this.onChange = editorState => {
+      this.setState({ editorState });
+      const body = convertToRaw(this.state.editorState.getCurrentContent());
+      this.props.self.setState(
+        { body: body },
+        this.props.self.validateField("body", body)
+      );
+    };
+
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
   }
 
@@ -24,7 +32,7 @@ class TextEditor extends React.Component {
   }
 
   render() {
-    console.log(this.state);
+    console.log(this.props.self);
     return (
       <div className="editor" style={{ marginTop: 10 }}>
         <FormLabel component="legend">Body</FormLabel>
