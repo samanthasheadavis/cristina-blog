@@ -1,16 +1,32 @@
 import React from "react";
-import { Editor, EditorState, RichUtils, convertToRaw } from "draft-js";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  convertFromRaw
+} from "draft-js";
 import { Paper, FormLabel } from "@material-ui/core";
 
 class TextEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    if (this.props.self.state.body) {
+      this.state = {
+        editorState: EditorState.createWithContent(
+          convertFromRaw(this.props.self.state.body)
+        )
+      };
+    } else {
+      this.state = { editorState: EditorState.createEmpty() };
+    }
     this.onChange = editorState => {
       this.setState({ editorState });
+      // saving raw body to editor state
       const body = convertToRaw(this.state.editorState.getCurrentContent());
       this.props.self.setState(
         { body: body },
+        // manually validating editor body
         this.props.self.validateField("body", body)
       );
     };
@@ -32,7 +48,6 @@ class TextEditor extends React.Component {
   }
 
   render() {
-    console.log(this.props.self);
     return (
       <div className="editor" style={{ marginTop: 10 }}>
         <FormLabel component="legend">Body</FormLabel>

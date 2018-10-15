@@ -15,7 +15,8 @@ import {
   Checkbox,
   FormLabel,
   FormHelperText,
-  Chip
+  Chip,
+  CircularProgress
 } from "@material-ui/core";
 import styles from "../../styles";
 
@@ -32,7 +33,8 @@ const INITIAL_STATE = {
   authorValid: false,
   bodyValid: false,
   languageValid: false,
-  formValid: false
+  formValid: false,
+  articleLoading: true
 };
 
 class Editor extends Component {
@@ -54,12 +56,15 @@ class Editor extends Component {
               authorValid: true,
               bodyValid: true,
               languageValid: true,
-              formValid: true
+              formValid: true,
+              articleLoading: false
             });
           } else {
             alert("no document found matching ID" + articleId);
           }
         });
+    } else {
+      this.setState({ articleLoading: false });
     }
   }
 
@@ -166,174 +171,183 @@ class Editor extends Component {
       subtitle,
       language,
       tagsString,
-      hidden
+      hidden,
+      articleLoading
     } = this.state;
-    return (
-      <div style={styles.root}>
-        <Paper
-          elevation={1}
-          style={{
-            flex: 1,
-            margin: 20,
-            paddingLeft: 20,
-            paddingRight: 20,
-            paddingBottom: 20,
-            paddingTop: 10
-          }}
-        >
-          <Grid container direction={"column"}>
+    if (articleLoading) {
+      return (
+        <div style={styles.root}>
+          <CircularProgress />
+        </div>
+      );
+    } else {
+      return (
+        <div style={styles.root}>
+          <Paper
+            elevation={1}
+            style={{
+              flex: 1,
+              margin: 20,
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingBottom: 20,
+              paddingTop: 10
+            }}
+          >
             <Grid container direction={"column"}>
-              <Typography variant="headline" component="h3">
-                Article Editor
-              </Typography>
-            </Grid>
-
-            <form onSubmit={this.handleSubmit.bind(this)}>
-              <Grid container direction={"row"} justify={"space-between"}>
-                {/* ================================= BLOCK 1: TITLE, SUBTITLE, AUTHOR ==================================== */}
-                <Grid item xs={6} style={{ paddingRight: 20 }}>
-                  <TextField
-                    name="title"
-                    style={{ display: "block" }}
-                    id="with-placeholder"
-                    fullWidth
-                    label="Title"
-                    placeholder="Title"
-                    value={title}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                  <TextField
-                    name="subtitle"
-                    style={{ display: "block" }}
-                    id="with-placeholder"
-                    fullWidth
-                    label="Subtitle"
-                    placeholder="Subtitle (optional)"
-                    value={subtitle}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                  <TextField
-                    name="author"
-                    style={{ display: "block" }}
-                    id="with-placeholder"
-                    fullWidth
-                    label="Author"
-                    placeholder="Author"
-                    value={author}
-                    onChange={this.handleChange.bind(this)}
-                  />
-                </Grid>
-                {/* ================================= BLOCK 2: LANGUAGE, PRIVATE ==================================== */}
-
-                <Grid item xs={6}>
-                  <FormLabel component="legend">Language</FormLabel>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={language === "english"}
-                        name="language"
-                        value={"english"}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                    }
-                    label="English"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={language === "spanish"}
-                        name="language"
-                        value={"spanish"}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                    }
-                    label="Spanish"
-                  />
-                  <FormLabel component="legend">Private</FormLabel>
-                  <FormHelperText>
-                    Private articles will not be displayed on the Baturra Blog
-                    public page.
-                  </FormHelperText>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={hidden === true}
-                        name="hidden"
-                        value={hidden.toString()}
-                        onChange={this.handleChange.bind(this)}
-                      />
-                    }
-                    label="Private"
-                  />
-                </Grid>
-              </Grid>
-              {/* ================================= BLOCK 3: TAGS, BODY ==================================== */}
               <Grid container direction={"column"}>
-                <Paper
-                  elevation={2}
-                  style={{
-                    marginTop: 20,
-                    padding: 10,
-                    flex: 1,
-                    flexDirection: "row"
-                  }}
-                >
-                  {this.state.tags &&
-                    this.state.tags.length > 0 &&
-                    this.state.tags.map((tag, i) => (
-                      <Chip
-                        key={i}
-                        style={{ marginRight: 10 }}
-                        label={tag}
-                        onDelete={() => this.handleChipDelete(tag)}
-                      />
-                    ))}
-                  <Input
-                    disableUnderline={true}
-                    name="tagsString"
-                    id="textarea"
-                    placeholder="Tags (optional)"
-                    onChange={this.handleChange.bind(this)}
-                    onKeyPress={this.handleTagSubmit.bind(this)}
-                    value={tagsString}
-                  />
-                </Paper>
-                <FormHelperText>
-                  Enter tags seperated by commas i.e. "education, permaculture".
-                  Tags are not case sensitive.
-                </FormHelperText>
-
-                <TextEditor self={this} />
+                <Typography variant="headline" component="h3">
+                  Article Editor
+                </Typography>
               </Grid>
-              {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}
 
-              <Grid container direction={"row"}>
-                <Button
-                  style={{ marginTop: 20, marginRight: 20 }}
-                  variant="contained"
-                  color="primary"
-                  disabled={!this.state.formValid}
-                  type={"button"}
-                  onClick={this.handleSubmit.bind(this)}
-                >
-                  Save
-                </Button>
-                {articleId && (
-                  <Button
-                    style={{ marginTop: 20, backgroundColor: "red" }}
-                    variant="contained"
-                    onClick={() => this.deleteArticle(articleId)}
-                    color="primary"
+              <form onSubmit={this.handleSubmit.bind(this)}>
+                <Grid container direction={"row"} justify={"space-between"}>
+                  {/* ================================= BLOCK 1: TITLE, SUBTITLE, AUTHOR ==================================== */}
+                  <Grid item xs={6} style={{ paddingRight: 20 }}>
+                    <TextField
+                      name="title"
+                      style={{ display: "block" }}
+                      id="with-placeholder"
+                      fullWidth
+                      label="Title"
+                      placeholder="Title"
+                      value={title}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    <TextField
+                      name="subtitle"
+                      style={{ display: "block" }}
+                      id="with-placeholder"
+                      fullWidth
+                      label="Subtitle"
+                      placeholder="Subtitle (optional)"
+                      value={subtitle}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    <TextField
+                      name="author"
+                      style={{ display: "block" }}
+                      id="with-placeholder"
+                      fullWidth
+                      label="Author"
+                      placeholder="Author"
+                      value={author}
+                      onChange={this.handleChange.bind(this)}
+                    />
+                  </Grid>
+                  {/* ================================= BLOCK 2: LANGUAGE, PRIVATE ==================================== */}
+
+                  <Grid item xs={6}>
+                    <FormLabel component="legend">Language</FormLabel>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={language === "english"}
+                          name="language"
+                          value={"english"}
+                          onChange={this.handleChange.bind(this)}
+                        />
+                      }
+                      label="English"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={language === "spanish"}
+                          name="language"
+                          value={"spanish"}
+                          onChange={this.handleChange.bind(this)}
+                        />
+                      }
+                      label="Spanish"
+                    />
+                    <FormLabel component="legend">Private</FormLabel>
+                    <FormHelperText>
+                      Private articles will not be displayed on the Baturra Blog
+                      public page.
+                    </FormHelperText>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={hidden === true}
+                          name="hidden"
+                          value={hidden.toString()}
+                          onChange={this.handleChange.bind(this)}
+                        />
+                      }
+                      label="Private"
+                    />
+                  </Grid>
+                </Grid>
+                {/* ================================= BLOCK 3: TAGS, BODY ==================================== */}
+                <Grid container direction={"column"}>
+                  <Paper
+                    elevation={2}
+                    style={{
+                      marginTop: 20,
+                      padding: 10,
+                      flex: 1,
+                      flexDirection: "row"
+                    }}
                   >
-                    Delete
+                    {this.state.tags &&
+                      this.state.tags.length > 0 &&
+                      this.state.tags.map((tag, i) => (
+                        <Chip
+                          key={i}
+                          style={{ marginRight: 10 }}
+                          label={tag}
+                          onDelete={() => this.handleChipDelete(tag)}
+                        />
+                      ))}
+                    <Input
+                      disableUnderline={true}
+                      name="tagsString"
+                      id="textarea"
+                      placeholder="Tags (optional)"
+                      onChange={this.handleChange.bind(this)}
+                      onKeyPress={this.handleTagSubmit.bind(this)}
+                      value={tagsString}
+                    />
+                  </Paper>
+                  <FormHelperText>
+                    Enter tags seperated by commas i.e. "education,
+                    permaculture". Tags are not case sensitive.
+                  </FormHelperText>
+
+                  <TextEditor self={this} />
+                </Grid>
+                {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}
+
+                <Grid container direction={"row"}>
+                  <Button
+                    style={{ marginTop: 20, marginRight: 20 }}
+                    variant="contained"
+                    color="primary"
+                    disabled={!this.state.formValid}
+                    type={"button"}
+                    onClick={this.handleSubmit.bind(this)}
+                  >
+                    Save
                   </Button>
-                )}
-              </Grid>
-            </form>
-          </Grid>
-        </Paper>
-      </div>
-    );
+                  {articleId && (
+                    <Button
+                      style={{ marginTop: 20, backgroundColor: "red" }}
+                      variant="contained"
+                      onClick={() => this.deleteArticle(articleId)}
+                      color="primary"
+                    >
+                      Delete
+                    </Button>
+                  )}
+                </Grid>
+              </form>
+            </Grid>
+          </Paper>
+        </div>
+      );
+    }
   }
 }
 

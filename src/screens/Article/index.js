@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { firebase } from "../../services";
 import styles from "../../styles";
 import { Typography, CircularProgress } from "@material-ui/core";
+import { convertFromRaw } from "draft-js";
 
 class Article extends Component {
   state = {
@@ -36,7 +37,7 @@ class Article extends Component {
           <Typography variant="headline" component="h3">
             {article.data.title}
           </Typography>
-          <p>{article.data.body}</p>
+          {/* <p>{article.data.body}</p> */}
         </div>
       );
     } else {
