@@ -1,14 +1,12 @@
 import React from "react";
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  convertToRaw,
-  convertFromRaw
-} from "draft-js";
+import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import { Paper, FormLabel } from "@material-ui/core";
+import { Editor } from "react-draft-wysiwyg";
+import { wstyles } from "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 class TextEditor extends React.Component {
+  // Converts body text (if present) from raw DraftJS object into formatted text
+  // Else creates new empty draft js object
   constructor(props) {
     super(props);
     if (this.props.self.state.body) {
@@ -20,31 +18,16 @@ class TextEditor extends React.Component {
     } else {
       this.state = { editorState: EditorState.createEmpty() };
     }
+    // saving raw body to editor state
+    // manually validating editor body
     this.onChange = editorState => {
       this.setState({ editorState });
-      // saving raw body to editor state
       const body = convertToRaw(this.state.editorState.getCurrentContent());
       this.props.self.setState(
         { body: body },
-        // manually validating editor body
         this.props.self.validateField("body", body)
       );
     };
-
-    this.handleKeyCommand = this.handleKeyCommand.bind(this);
-  }
-
-  handleKeyCommand(command, editorState) {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.onChange(newState);
-      return "handled";
-    }
-    return "not-handled";
-  }
-
-  _onBoldClick() {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"));
   }
 
   render() {
@@ -54,9 +37,11 @@ class TextEditor extends React.Component {
 
         <Paper elevation={2} style={{ padding: 10, flex: 1, marginTop: 5 }}>
           <Editor
-            handleKeyCommand={this.handleKeyCommand}
             editorState={this.state.editorState}
-            onChange={this.onChange}
+            wrapperClassName="wrapper-class"
+            editorClassName="editor-class"
+            toolbarClassName="toolbar-class"
+            onEditorStateChange={this.onChange}
           />
         </Paper>
       </div>

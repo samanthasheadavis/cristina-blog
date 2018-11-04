@@ -40,6 +40,7 @@ const INITIAL_STATE = {
 class Editor extends Component {
   state = { ...INITIAL_STATE };
 
+  // If editing (article ID present in URL, get article from db, else set loading to false)
   componentDidMount() {
     const articleId = this.props.match.params.articleId;
 
@@ -68,9 +69,9 @@ class Editor extends Component {
     }
   }
 
+  // Function to create a new article or save edits on an article
   handleSubmit(event) {
     event.preventDefault();
-    const articleId = this.props.match.params.articleId;
     const articleObj = {
       title: this.state.title,
       subtitle: this.state.subtitle,
@@ -80,6 +81,7 @@ class Editor extends Component {
       hidden: this.state.hidden,
       tags: this.state.tags
     };
+    const articleId = this.props.match.params.articleId;
     if (articleId) {
       articleService.UpdateArticle(articleObj, articleId).then(response => {
         this.props.history.push("/dashboard");
@@ -91,6 +93,7 @@ class Editor extends Component {
     }
   }
 
+  // Function used to validate title, author, body and language all present before submit/save
   validateField(name, val) {
     let titleValid = this.state.titleValid;
     let authorValid = this.state.authorValid;
@@ -122,6 +125,7 @@ class Editor extends Component {
     });
   }
 
+  // toggles article private/not private, calls validate function
   handleChange(event) {
     if (event.target.name === "hidden") {
       this.setState({ hidden: !this.state.hidden });
@@ -133,8 +137,8 @@ class Editor extends Component {
     }
   }
 
+  // Seperate submit for article tags, triggered on Enter key press to add tag to tag array
   handleTagSubmit(event) {
-    event.preventDefault();
     var code = event.keyCode || event.which;
     if (code === 13) {
       const str = this.state.tagsString;
@@ -146,6 +150,7 @@ class Editor extends Component {
     }
   }
 
+  // Function to remove tag (chip) from tags array
   handleChipDelete(item) {
     const tags = [...this.state.tags];
     const index = tags.indexOf(item);
@@ -153,6 +158,7 @@ class Editor extends Component {
     this.setState({ tags: tags });
   }
 
+  // Function to remove article
   deleteArticle(id) {
     articleService.DeleteArticle(id).then(response => {
       if (response != null) {
@@ -237,7 +243,6 @@ class Editor extends Component {
                     />
                   </Grid>
                   {/* ================================= BLOCK 2: LANGUAGE, PRIVATE ==================================== */}
-
                   <Grid item xs={6}>
                     <FormLabel component="legend">Language</FormLabel>
                     <FormControlLabel
@@ -315,11 +320,9 @@ class Editor extends Component {
                     Enter tags seperated by commas i.e. "education,
                     permaculture". Tags are not case sensitive.
                   </FormHelperText>
-
                   <TextEditor self={this} />
                 </Grid>
                 {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}
-
                 <Grid container direction={"row"}>
                   <Button
                     style={{ marginTop: 20, marginRight: 20 }}
