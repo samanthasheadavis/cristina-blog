@@ -30,7 +30,6 @@ class TextEditor extends React.Component {
 
   // Function to upload images locally to preview in editor
   _uploadImage(file) {
-    console.log(this.state.uploadImages);
     const imageObject = { file: file, localSrc: URL.createObjectURL(file) };
     this.setState([...this.state.uploadImages, imageObject]);
     return new Promise((resolve, reject) => {
