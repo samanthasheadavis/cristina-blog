@@ -41,6 +41,9 @@ const NavigationNonAuth = () => (
       >
         Baturra
       </Typography>
+      <Button color="inherit" component={Link} to="/">
+        BLOG
+      </Button>
       <Button color="inherit" component={Link} to="/about">
         About
       </Button>

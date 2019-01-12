@@ -82,14 +82,25 @@ class AdminDashboard extends Component {
           <Typography variant="headline" component="h3">
             My Dashboard
           </Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            component={Link}
-            to={`/editor`}
-          >
-            Create New Article
-          </Button>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to={`/sign-up`}
+            >
+              New User
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to={`/editor`}
+              style={{ marginLeft: 20 }}
+            >
+              New Article
+            </Button>
+          </div>
         </Grid>
 
         <Table>

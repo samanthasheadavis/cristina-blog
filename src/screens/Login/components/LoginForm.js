@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { auth } from "../../../services";
 
-import { SignUpLink } from "../../SignUp/components/SignUpForm";
-
 const byPropKey = (propertyName, value) => () => ({
   [propertyName]: value
 });
@@ -63,7 +61,6 @@ class LoginForm extends Component {
 
           {error && <p>{error.message}</p>}
         </form>
-        <SignUpLink />
       </div>
     );
   }
