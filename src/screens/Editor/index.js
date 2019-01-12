@@ -29,6 +29,7 @@ const INITIAL_STATE = {
   tagsString: "",
   tags: [],
   hidden: true,
+  coverPhoto: "",
   titleValid: false,
   authorValid: false,
   bodyValid: false,
@@ -70,7 +71,7 @@ class Editor extends Component {
   }
 
   // Function to create a new article or save edits on an article
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     const articleObj = {
       title: this.state.title,
@@ -79,7 +80,8 @@ class Editor extends Component {
       body: this.state.body,
       language: this.state.language,
       hidden: this.state.hidden,
-      tags: this.state.tags
+      tags: this.state.tags,
+      coverPhoto: this.state.coverPhoto
     };
     const articleId = this.props.match.params.articleId;
     if (articleId) {
@@ -91,7 +93,7 @@ class Editor extends Component {
         this.props.history.push("/dashboard");
       });
     }
-  }
+  };
 
   // Function used to validate title, author, body and language all present before submit/save
   validateField(name, val) {
@@ -125,15 +127,22 @@ class Editor extends Component {
     });
   }
 
-  // toggles article private/not private, calls validate function
+  // toggles article private/not private, saves cover photo file, calls validate function
   handleChange(event) {
     if (event.target.name === "hidden") {
       this.setState({ hidden: !this.state.hidden });
     } else {
-      this.setState(
-        { [event.target.name]: event.target.value },
-        this.validateField(event.target.name, event.target.value)
-      );
+      if (event.target.name === "coverPhoto") {
+        if (event.target.files[0]) {
+          console.log(event.target.files[0]);
+          this.setState({ coverPhoto: event.target.files[0] });
+        }
+      } else {
+        this.setState(
+          { [event.target.name]: event.target.value },
+          this.validateField(event.target.name, event.target.value)
+        );
+      }
     }
   }
 
@@ -178,6 +187,7 @@ class Editor extends Component {
       language,
       tagsString,
       hidden,
+      coverPhoto,
       articleLoading
     } = this.state;
     if (articleLoading) {
@@ -202,7 +212,7 @@ class Editor extends Component {
           >
             <Grid container direction={"column"}>
               <Grid container direction={"column"}>
-                <Typography variant="headline" component="h3">
+                <Typography variant="h3" gutterBottom={true}>
                   Article Editor
                 </Typography>
               </Grid>
@@ -320,6 +330,36 @@ class Editor extends Component {
                     Enter tags seperated by commas i.e. "education,
                     permaculture". Tags are not case sensitive.
                   </FormHelperText>
+                  {/* =================== Cover Image =================== */}
+                  <Paper
+                    elevation={2}
+                    style={{
+                      marginTop: 20,
+                      padding: 10,
+                      flex: 1,
+                      flexDirection: "row"
+                    }}
+                  >
+                    <Typography
+                      component="h2"
+                      variant="headline"
+                      gutterBottom={true}
+                    >
+                      Cover Image (optional)
+                    </Typography>
+                    <FormHelperText>
+                      This image will be displayed on the blog home page along
+                      with your article title and subtitle.
+                    </FormHelperText>
+                    <Input
+                      style={{ paddingTop: 10 }}
+                      type="file"
+                      disableUnderline={true}
+                      name="coverPhoto"
+                      onChange={this.handleChange.bind(this)}
+                    />
+                    {!!coverPhoto && <img src={coverPhoto} />}
+                  </Paper>
                   <TextEditor self={this} />
                 </Grid>
                 {/* ================================= BLOCK 4: SUBMIT, DELETE ==================================== */}

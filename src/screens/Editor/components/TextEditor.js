@@ -40,8 +40,6 @@ class TextEditor extends React.Component {
   render() {
     return (
       <div className="editor" style={{ marginTop: 10 }}>
-        <FormLabel component="legend">Body</FormLabel>
-
         <Paper elevation={2} style={{ padding: 10, flex: 1, marginTop: 5 }}>
           <Editor
             editorState={this.state.editorState}
