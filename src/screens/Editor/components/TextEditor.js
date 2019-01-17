@@ -1,9 +1,8 @@
 import React from "react";
-import { EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
-import { Paper, FormLabel } from "@material-ui/core";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import { Paper } from "@material-ui/core";
 import { Editor } from "react-draft-wysiwyg";
 import { wstyles } from "../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-
 class TextEditor extends React.Component {
   // Converts body text (if present) from raw DraftJS object into formatted text
   // Else creates new empty draft js object

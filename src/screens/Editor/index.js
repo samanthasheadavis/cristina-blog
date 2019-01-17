@@ -29,7 +29,7 @@ const INITIAL_STATE = {
   tagsString: "",
   tags: [],
   hidden: true,
-  coverPhoto: "",
+  coverPhotoURL: "",
   titleValid: false,
   authorValid: false,
   bodyValid: false,
@@ -81,7 +81,7 @@ class Editor extends Component {
       language: this.state.language,
       hidden: this.state.hidden,
       tags: this.state.tags,
-      coverPhoto: this.state.coverPhoto
+      coverPhotoURL: this.state.coverPhotoURL
     };
     const articleId = this.props.match.params.articleId;
     if (articleId) {
@@ -132,19 +132,21 @@ class Editor extends Component {
     if (event.target.name === "hidden") {
       this.setState({ hidden: !this.state.hidden });
     } else {
-      if (event.target.name === "coverPhoto") {
-        if (event.target.files[0]) {
-          console.log(event.target.files[0]);
-          this.setState({ coverPhoto: event.target.files[0] });
-        }
-      } else {
-        this.setState(
-          { [event.target.name]: event.target.value },
-          this.validateField(event.target.name, event.target.value)
-        );
-      }
+      this.setState(
+        { [event.target.name]: event.target.value },
+        this.validateField(event.target.name, event.target.value)
+      );
     }
   }
+
+  // Uploads photo file to storage
+  handleFileUpload = event => {
+    if (event.target.files[0]) {
+      articleService.UploadCoverPhoto(event.target.files[0]).then(url => {
+        this.setState({ coverPhotoURL: url });
+      });
+    }
+  };
 
   // Seperate submit for article tags, triggered on Enter key press to add tag to tag array
   handleTagSubmit(event) {
@@ -187,8 +189,8 @@ class Editor extends Component {
       language,
       tagsString,
       hidden,
-      coverPhoto,
-      articleLoading
+      articleLoading,
+      coverPhotoURL
     } = this.state;
     if (articleLoading) {
       return (
@@ -212,7 +214,7 @@ class Editor extends Component {
           >
             <Grid container direction={"column"}>
               <Grid container direction={"column"}>
-                <Typography variant="h3" gutterBottom={true}>
+                <Typography variant="headline" gutterBottom={true}>
                   Article Editor
                 </Typography>
               </Grid>
@@ -340,11 +342,7 @@ class Editor extends Component {
                       flexDirection: "row"
                     }}
                   >
-                    <Typography
-                      component="h2"
-                      variant="headline"
-                      gutterBottom={true}
-                    >
+                    <Typography variant="subheading" gutterBottom={true}>
                       Cover Image (optional)
                     </Typography>
                     <FormHelperText>
@@ -355,10 +353,10 @@ class Editor extends Component {
                       style={{ paddingTop: 10 }}
                       type="file"
                       disableUnderline={true}
-                      name="coverPhoto"
-                      onChange={this.handleChange.bind(this)}
+                      name="coverPhotoURL"
+                      onChange={this.handleFileUpload.bind(this)}
                     />
-                    {!!coverPhoto && <img src={coverPhoto} />}
+                    {!!coverPhotoURL && <img src={coverPhotoURL} />}
                   </Paper>
                   <TextEditor self={this} />
                 </Grid>

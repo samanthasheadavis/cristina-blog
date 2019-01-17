@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { auth, firebase } from "../../../services";
 
-import { LoginLink } from "../../Login/components/LoginForm";
-
 const INITIAL_STATE = {
   email: "",
   passwordOne: "",

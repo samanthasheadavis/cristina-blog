@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { firebase } from "../../services";
 import styles from "../../styles";
 import { Typography, CircularProgress } from "@material-ui/core";
-import { convertFromRaw } from "draft-js";
 
 class Article extends Component {
   state = {
