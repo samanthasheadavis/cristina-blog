@@ -333,15 +333,7 @@ class Editor extends Component {
                     permaculture". Tags are not case sensitive.
                   </FormHelperText>
                   {/* =================== Cover Image =================== */}
-                  <Paper
-                    elevation={2}
-                    style={{
-                      marginTop: 20,
-                      padding: 10,
-                      flex: 1,
-                      flexDirection: "row"
-                    }}
-                  >
+                  <Paper elevation={2} style={{ marginTop: 20, padding: 10 }}>
                     <Typography variant="subheading" gutterBottom={true}>
                       Cover Image (optional)
                     </Typography>
@@ -349,6 +341,16 @@ class Editor extends Component {
                       This image will be displayed on the blog home page along
                       with your article title and subtitle.
                     </FormHelperText>
+                    {!!coverPhotoURL && (
+                      <div style={{ paddingTop: 10 }}>
+                        <img
+                          alt={coverPhotoURL}
+                          style={{ width: 50, height: 50 }}
+                          src={coverPhotoURL}
+                        />
+                      </div>
+                    )}
+
                     <Input
                       style={{ paddingTop: 10 }}
                       type="file"
@@ -356,7 +358,6 @@ class Editor extends Component {
                       name="coverPhotoURL"
                       onChange={this.handleFileUpload.bind(this)}
                     />
-                    {!!coverPhotoURL && <img src={coverPhotoURL} />}
                   </Paper>
                   <TextEditor self={this} />
                 </Grid>
