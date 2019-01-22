@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { firebase } from "../../services";
 import styles from "../../styles";
-import { Typography, CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
+import { EditorState, convertFromRaw } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import { wstyles } from "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 class Article extends Component {
   state = {
-    article: undefined
+    editorState: undefined
   };
 
   componentDidMount() {
@@ -17,10 +20,9 @@ class Article extends Component {
       .then(article => {
         if (article.exists) {
           this.setState({
-            article: {
-              id: articleId,
-              data: article.data()
-            }
+            editorState: EditorState.createWithContent(
+              convertFromRaw(article.data().body)
+            )
           });
         } else {
           alert("no document found matching ID" + articleId);
@@ -29,14 +31,14 @@ class Article extends Component {
   }
 
   render() {
-    if (this.state.article) {
-      const { article } = this.state;
+    if (this.state.editorState) {
       return (
-        <div style={styles.root}>
-          <Typography variant="headline" component="h3">
-            {article.data.title}
-          </Typography>
-          {/* <p>{article.data.body}</p> */}
+        <div style={{ flex: 1, padding: 20 }}>
+          <Editor
+            toolbarHidden
+            editorState={this.state.editorState}
+            readOnly={true}
+          />
         </div>
       );
     } else {
