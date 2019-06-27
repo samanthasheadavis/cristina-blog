@@ -22,17 +22,6 @@ export const AddArticle = async articleObj => {
     });
 };
 
-export const UploadCoverPhoto = async file => {
-  const ref = firebase.storage.ref().child(`images/${file.name}`);
-  try {
-    const snapshot = await ref.put(file);
-    const downloadURL = await snapshot.ref.getDownloadURL();
-    return downloadURL;
-  } catch (error) {
-    alert(error);
-  }
-};
-
 export const UpdateArticle = (articleObj, id) => {
   return firebase.db
     .collection("articles")

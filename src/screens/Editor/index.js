@@ -139,15 +139,6 @@ class Editor extends Component {
     }
   }
 
-  // Uploads photo file to storage
-  handleFileUpload = event => {
-    if (event.target.files[0]) {
-      articleService.UploadCoverPhoto(event.target.files[0]).then(url => {
-        this.setState({ coverPhotoURL: url });
-      });
-    }
-  };
-
   // Seperate submit for article tags, triggered on Enter key press to add tag to tag array
   handleTagSubmit(event) {
     var code = event.keyCode || event.which;
@@ -229,7 +220,6 @@ class Editor extends Component {
                       id="with-placeholder"
                       fullWidth
                       label="Title"
-                      placeholder="Title"
                       value={title}
                       onChange={this.handleChange.bind(this)}
                     />
@@ -239,7 +229,6 @@ class Editor extends Component {
                       id="with-placeholder"
                       fullWidth
                       label="Subtitle"
-                      placeholder="Subtitle (optional)"
                       value={subtitle}
                       onChange={this.handleChange.bind(this)}
                     />
@@ -249,7 +238,6 @@ class Editor extends Component {
                       id="with-placeholder"
                       fullWidth
                       label="Author"
-                      placeholder="Author"
                       value={author}
                       onChange={this.handleChange.bind(this)}
                     />
@@ -345,18 +333,19 @@ class Editor extends Component {
                       <div style={{ paddingTop: 10 }}>
                         <img
                           alt={coverPhotoURL}
-                          style={{ width: 50, height: 50 }}
+                          style={{ height: 50 }}
                           src={coverPhotoURL}
                         />
                       </div>
                     )}
-
-                    <Input
-                      style={{ paddingTop: 10 }}
-                      type="file"
-                      disableUnderline={true}
+                    <TextField
                       name="coverPhotoURL"
-                      onChange={this.handleFileUpload.bind(this)}
+                      style={{ display: "block" }}
+                      id="with-placeholder"
+                      fullWidth
+                      label="Image URL"
+                      value={coverPhotoURL}
+                      onChange={this.handleChange.bind(this)}
                     />
                   </Paper>
                   <TextEditor self={this} />
