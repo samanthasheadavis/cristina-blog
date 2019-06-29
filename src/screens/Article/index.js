@@ -64,16 +64,18 @@ class Article extends Component {
               )}
               {articleData.author !== undefined && ` by ${articleData.author}`}
             </Typography>
-            {articleData.coverPhotoURL !== undefined && (
-              <Grid
-                item
-                xs={12}
-                style={{
-                  ...styles.articleHeroImg,
-                  backgroundImage: `url(${articleData.coverPhotoURL})`
-                }}
-              />
-            )}
+            {/* ====================== Image if present ====================== */}
+            {articleData.coverPhotoURL !== undefined &&
+              articleData.coverPhotoURL !== "" && (
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    ...styles.articleHeroImg,
+                    backgroundImage: `url(${articleData.coverPhotoURL})`
+                  }}
+                />
+              )}
             {/* ====================== Body ====================== */}
             <Editor toolbarHidden editorState={editorState} readOnly={true} />
           </Grid>

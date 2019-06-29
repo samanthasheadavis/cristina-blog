@@ -43,12 +43,7 @@ class Home extends Component {
   render() {
     return (
       <div style={styles.root}>
-        <Grid container spacing={16}>
-          <Grid item xs={12} />
-          <Grid item xs={12}>
-            <GridList cols={3}>{this.articlesIndex()}</GridList>
-          </Grid>
-        </Grid>
+        <Grid container>{this.articlesIndex()}</Grid>
       </div>
     );
   }
