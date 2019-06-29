@@ -317,8 +317,8 @@ class Editor extends Component {
                     />
                   </Paper>
                   <FormHelperText>
-                    Enter tags seperated by commas i.e. "education,
-                    permaculture". Tags are not case sensitive.
+                    Type a tag and press Enter to add it to the list. Tags are
+                    not case sensitive.
                   </FormHelperText>
                   {/* =================== Cover Image =================== */}
                   <Paper elevation={2} style={{ marginTop: 20, padding: 10 }}>
