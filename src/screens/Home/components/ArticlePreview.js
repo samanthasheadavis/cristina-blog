@@ -6,10 +6,6 @@ import {
   CardContent,
   Grid
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
-
-import { GridListTile, GridListTileBar, Button } from "@material-ui/core";
-import styles from "../../../styles";
 
 class ArticlePreview extends Component {
   render() {
