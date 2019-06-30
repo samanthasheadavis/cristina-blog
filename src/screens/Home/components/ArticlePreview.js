@@ -4,7 +4,6 @@ import {
   CardActionArea,
   Typography,
   CardContent,
-  CardMedia,
   Grid
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
